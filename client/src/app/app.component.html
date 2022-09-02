@@ -1,9 +1,12 @@
 {{title}}
+<br>
 
 <tr *ngFor="let item of myUsers">
-    
-    <td id="filmParams">"{{item.id}} </td>
 
-    <td id="filmParams">{{item.userName}}" </td>
-    
+    <td>{{item.id}} - {{item.userName}} </td>
+
 </tr>
+
+<ul>
+  <li *ngFor="let user of users"> {{user.id}} - {{user.userName}}</li>
+</ul>

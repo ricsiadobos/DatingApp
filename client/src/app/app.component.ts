@@ -19,23 +19,23 @@ export class AppComponent implements OnInit{
 
   ngOnInit() {
     this.getUsers();
-    
+
     this.getUsers2().subscribe(data => {
       this.myUsers = data;
     });
-    
+
   }
 
- 
- 
+
+ //Lesson solution
   getUsers() {
-    this.http.get('https://localhost:7145/api/users').subscribe(response =>{
-      this.users = response;
-    }, error => {
-      console.log(error);
+    this.http.get('https://localhost:7145/api/users').subscribe({
+      next: response => this.users = response,
+      error: error => console.log(error)
     })
   }
 
+  // my solution
   getUsers2(): Observable<any>{
     return this.http.get<any>('https://localhost:7145/api/users')
   }

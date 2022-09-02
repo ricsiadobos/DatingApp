@@ -8,10 +8,10 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 
-//Ez kell, hogy serverként mûködjön
+//Ez kell, hogy serverkÃ©nt mÅ±kÃ¶djÃ¶n
 builder.Services.AddCors();
 
-//itt adjuk át a db forrást a rendszerben
+//itt adjuk ï¿½t a db forrÃ¡st a rendszerben
 builder.Services.AddDbContext<DataContext>(
     options =>options.UseSqlServer(
         builder.Configuration.GetConnectionString(
@@ -33,8 +33,11 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-//Ez kell, hogy egy másik rendszer middleware-nek használja
-app.UseCors(x => x.AllowAnyHeader().AllowAnyMethod().WithOrigins("http://localhost:4200"));
+//Ez kell, hogy egy mÃ¡sik rendszer middleware-nek hasznÃ¡lja
+app.UseCors(x => x
+    .AllowAnyHeader()
+    .AllowAnyMethod()
+    .WithOrigins("https://localhost:4200"));
 
 app.UseAuthorization();
 
