@@ -1,4 +1,6 @@
 using API.Data;
+using API.Interfaces;
+using API.Servives;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -10,6 +12,9 @@ builder.Services.AddControllers();
 
 //Ez kell, hogy serverként működjön
 builder.Services.AddCors();
+
+//Token kezelésre létrehozott service 
+builder.Services.AddScoped<ITokenService, TokenSevice>();
 
 //itt adjuk �t a db forrást a rendszerben
 builder.Services.AddDbContext<DataContext>(
