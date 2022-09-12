@@ -3,7 +3,6 @@ using System.Security.Claims;
 using System.Text;
 using API.Entities;
 using API.Interfaces;
-using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 using Microsoft.IdentityModel.Tokens;
 using JwtRegisteredClaimNames = Microsoft.IdentityModel.JsonWebTokens.JwtRegisteredClaimNames;
 
@@ -16,7 +15,7 @@ public class TokenSevice : ITokenService
     
     public TokenSevice(IConfiguration config)
     {
-        _key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(config["TokenKey"]));
+        _key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(config.GetSection("AppSettings:TokenKey").Value));
     }
     
     public string CreateToken(AppUser user)

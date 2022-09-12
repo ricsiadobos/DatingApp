@@ -1,10 +1,13 @@
+using System.Text;
 using API.Data;
 using API.Interfaces;
 using API.Servives;
-using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 
 var builder = WebApplication.CreateBuilder(args);
+
 
 // Add services to the container.
 
@@ -12,6 +15,22 @@ builder.Services.AddControllers();
 
 //Ez kell, hogy serverként működjön
 builder.Services.AddCors();
+
+//Token fogadó JwtBearer
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options =>
+    {
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuerSigningKey = true,
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8
+                .GetBytes(builder.Configuration
+                    .GetSection("AppSettings:TokenKey").Value)),
+            ValidateIssuer = false,
+            ValidateAudience = false,
+        };
+    });
+
 
 //Token kezelésre létrehozott service 
 builder.Services.AddScoped<ITokenService, TokenSevice>();
@@ -43,6 +62,8 @@ app.UseCors(x => x
     .AllowAnyHeader()
     .AllowAnyMethod()
     .WithOrigins("https://localhost:4200"));
+
+app.UseAuthentication();
 
 app.UseAuthorization();
 

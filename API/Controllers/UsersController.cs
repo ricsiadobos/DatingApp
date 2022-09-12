@@ -1,5 +1,6 @@
 using API.Data;
 using API.Entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -17,6 +18,7 @@ public class UsersController : BaseController
     }
 
     //Mindig Aszinkron metódust használunk, hogy a szálakat ne foglaljuk le.
+    [AllowAnonymous]    //engedély mellőzése
     [HttpGet]
     public async Task<ActionResult<IEnumerable<AppUser>>> GetUsers()
     {
@@ -26,6 +28,7 @@ public class UsersController : BaseController
     }
     
     //api/users/3
+    [Authorize]
     [HttpGet("{id}")]
     public async Task<ActionResult<AppUser>> GetUser(int id)
     {
