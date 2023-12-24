@@ -2,7 +2,8 @@ import {Component, OnInit} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {ConsoleLogger} from "@angular/compiler-cli";
 import {Observable} from "rxjs";
-import { User } from './User';
+import { User } from './_models/user';
+import { AccountService } from './_services/account.service';
 
 @Component({
   selector: 'app-root',
@@ -13,31 +14,22 @@ import { User } from './User';
 export class AppComponent implements OnInit{
   title = 'client';
   users: any;
-  myUsers: Array<User> = [];
+  public myUsers: Array<User> = [];
 
-  constructor(private http: HttpClient) {}
+  constructor(private accountService: AccountService) {}
 
   ngOnInit() {
-    this.getUsers();
 
-    this.getUsers2().subscribe(data => {
-      this.myUsers = data;
-    });
+    this.setCurrentUser();
 
   }
 
-
- //Lesson solution
-  getUsers() {
-    this.http.get('https://localhost:7145/api/users').subscribe({
-      next: response => this.users = response,
-      error: error => console.log(error)
-    })
+  setCurrentUser() {
+    //user-nek átadjuk a localStorge-ban lévő elemet, aminek 'user' a key. 
+    // ezt átadjuk a accountService-nek
+    const user: User = JSON.parse(localStorage.getItem('user'));
+    this.accountService.setCurrentUser(user);
   }
 
-  // my solution
-  getUsers2(): Observable<any>{
-    return this.http.get<any>('https://localhost:7145/api/users')
-  }
-
-}
+ 
+ }
