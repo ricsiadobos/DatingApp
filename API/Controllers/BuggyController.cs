@@ -39,9 +39,7 @@ namespace API.Controllers
         {
             var thing = _context.Users.Find(-1);
             var thingToReturn = thing.ToString();
-
             return thingToReturn;
-
         }
 
         [HttpGet("bad-request")]

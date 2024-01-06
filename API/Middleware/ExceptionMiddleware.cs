@@ -34,7 +34,7 @@ namespace API.Middleware
                     ? new ApiException(context.Response.StatusCode, ex.Message, ex.StackTrace?.ToString())   //feljleszői módban részltetezzük a keretkezett hibát
                     : new ApiException(context.Response.StatusCode, ex.Message, "Internal Server Error");   // production módban szerver hiba üzenetet jelenítünk meg
 
-                var options = new JsonSerializerOptions {PropertyNamingPolicy = JsonNamingPolicy.CamelCase };  //mivel itt nem automatizált a szerializálás ezért használunk JSON serializer-t
+                var options = new JsonSerializerOptions {PropertyNamingPolicy = JsonNamingPolicy.CamelCase};  //mivel itt nem automatizált a szerializálás ezért használunk JSON serializer-t
 
                 var json = JsonSerializer.Serialize(response, options); //JSON serializálás
 
